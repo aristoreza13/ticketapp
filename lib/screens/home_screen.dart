@@ -1,8 +1,11 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:ticketapp/screens/hotel_screen.dart';
 import 'package:ticketapp/screens/ticket_view.dart';
+import 'package:ticketapp/utils/app_info_list.dart';
 import 'package:ticketapp/utils/app_style.dart';
+import 'package:ticketapp/widgets/double_text_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -70,25 +73,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const Gap(40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Penerbangan Terdekat",
-                      style: Styles.headLineStyle2,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        print("Tapped");
-                      },
-                      child: Text(
-                        "View all",
-                        style: Styles.textStyle
-                            .copyWith(color: Styles.primaryColor),
-                      ),
-                    ),
-                  ],
-                )
+                const AppDoubleTextWidget(
+                    bigText: "Penerbangan Terdekat", smallText: "View all"),
               ],
             ),
           ),
@@ -97,12 +83,25 @@ class HomeScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.only(left: 20),
             child: Row(
-              children: [
-                TicketView(),
-                TicketView(),
-              ],
-            ),
-          )
+                children: ticketList
+                    .map((singleTicket) => TicketView(ticket: singleTicket))
+                    .toList()),
+          ),
+          const Gap(15),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: const AppDoubleTextWidget(
+                bigText: "Hotels", smallText: "View all"),
+          ),
+          const Gap(15),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(
+                children: hotelList
+                    .map((singleHotel) => HotelScreen(hotel: singleHotel))
+                    .toList()),
+          ),
         ],
       ),
     );
